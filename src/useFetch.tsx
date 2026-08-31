@@ -49,7 +49,6 @@ const useFetch = <T, E = unknown>(url: string): useFetchProps<T, E> => {
       } catch (err) {
         const message = err instanceof Error ? err.message : "Unknown error";
         setError(message as unknown as E);
-        console.log(message);
       } finally {
         setLoading(false);
       }

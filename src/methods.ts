@@ -1,5 +1,6 @@
 import Body from "@/utils/body";
 import Headers from "@/utils/headers";
+import parserError from "@/utils/parserError";
 import parserResponse from "@/utils/parserResponse";
 import type { MethodsPostProps, useResults } from "@/types";
 
@@ -28,7 +29,7 @@ class Methods {
 
       return { success: res.ok, data: parse as T, status: res.status };
     } catch (err) {
-      const message = err instanceof Error ? err.message : "server-error";
+      const message = parserError(err);
       return { success: false, error: message as E };
     }
   }
