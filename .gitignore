@@ -1,0 +1,11 @@
+node_modules
+dist
+*.env
+npm-defug.log*
+*.log
+.vscode
+.idea
+.DB_Store
+*.tsbuildinfo
+coverage
+.npmrc
