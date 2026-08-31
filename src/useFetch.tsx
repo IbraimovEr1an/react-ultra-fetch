@@ -6,7 +6,8 @@ import Methods from "@/methods";
 const METHODS = ["POST", "GET", "DEL", "PUT"] as const;
 
 const useFetch = <T, E = unknown>(url: string): useFetchProps<T, E> => {
-  if (!url || typeof url !== "string") {
+  const URL_SOME = ["http://", "https://"].some((u) => url.startsWith(u));
+  if (!url || typeof url !== "string" || !URL_SOME) {
     throw new UltraFetchError(
       "URL is required and must be a non-empty string.",
     );

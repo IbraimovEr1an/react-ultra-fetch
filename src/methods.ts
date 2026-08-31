@@ -3,6 +3,7 @@ import Headers from "@/utils/headers";
 import parserError from "@/utils/parserError";
 import parserResponse from "@/utils/parserResponse";
 import type { MethodsPostProps, useResults } from "@/types";
+import parserServerError from "./utils/parseServerError";
 
 class Methods {
   constructor(public url: string) {}
@@ -21,10 +22,15 @@ class Methods {
         credentials: options.cookie ? "include" : "same-origin",
       });
 
+      const clone = res.clone();
       const parse = await parserResponse(res);
 
       if (!res.ok) {
-        return { success: false, error: parse as E, status: res.status };
+        const status = res.status;
+        const text = await clone.text();
+        const contentType = res.headers.get("content-type") ?? "";
+        const message = parserServerError({ status, contentType, text });
+        return { success: false, error: message as E, status: res.status };
       }
 
       return { success: res.ok, data: parse as T, status: res.status };
